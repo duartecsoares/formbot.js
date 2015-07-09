@@ -25,7 +25,7 @@
 
     this.init = function(){
 
-        console.log("init testing ssh keys");
+        console.log("init testing git user and email");
     }
 
     this.init();
