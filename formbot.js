@@ -25,7 +25,7 @@
 
     this.init = function(){
 
-        console.log("init testing git user and email");
+        console.log("init");
     }
 
     this.init();
