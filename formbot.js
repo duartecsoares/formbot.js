@@ -1,7 +1,7 @@
 /**
  * formbot.js - An easy-to-use agent to verify input values.
  *
- * @author Duarte Soares
+ * @author duartecsoares
  * @contact duartecsoares@me.com
  * @version 0.1
  *
@@ -10,11 +10,11 @@
  * @license
  *     
  *
- * @copyright 2015, Duarte Soares
+ * @copyright 2015, duartecsoares
  *
  */
 
-(function(root){
+(function(root) {
 
     "use strict";
 
@@ -28,14 +28,41 @@
 
         "min"       : "Field must have atleast %p1 characters",
         "max"       : "Field cant have more than %p1 characters",
-        "required"  : "Field is required.",
+        "required"  : "Field is required",
         "default"   : "Field is invalid"
 
-    };
+    },
+    dom = document,
+    getElement  = function(id) {
 
-    function Formbot(settings){
+        return dom.getElementById(id);
 
-        var _constructor = function(){
+    },
+    on = function(eventName, action) {
+
+        this.addEventListener(eventName, action);
+
+    },
+    off = function(event, action) {
+
+
+    },
+    copy = function(object, properties) {
+
+        object = object || {};
+
+        properties.map(function(property) {
+
+            object[property.name] = property.action;
+
+        });
+
+        return object;
+    }
+
+    function Formbot(settings) {
+
+        var _constructor = function() {
 
             console.log(settings);
 
@@ -54,9 +81,32 @@
         * @param {Object} rule Adds a new validation rule
         * @returns {Object} Info about the rule
         */        
-        add: function(){},
+        add : function(rule) {},
+        process : function(e) {
+
+            e.preventDefault();
+
+            var target = e.target;
+
+            console.log("processing", target);
+
+        },
+        listenTo : function(id) {
+            
+            var binds = [{ name : "on", action: on }, { name : "off", action: off }],
+                form  = copy(getElement(id), binds);
+
+            form.on("submit", this.process);
+
+        }
 
     };
+
+    /* todo
+    * put more descriptions on methods
+    * extract data from inputs within process function
+    * add more methods to formbot's api such as stopListen
+    */
 
     if (typeof define === 'function' && define.amd) {
 
