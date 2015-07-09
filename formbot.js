@@ -13,20 +13,17 @@
  * @copyright 2015, Duarte Soares
  *
  */
-(function (root, factory) {
+
+(function(root){
 
     "use strict";
 
-    if (typeof define === 'function' && define.amd) {
-        define([], factory);
-    } else if (typeof exports === 'object') {
-        module.exports = factory;
-    } else {
-        root.Formbot = factory;
-    }
-}(this, function Formbot(settings){
-
-    //private interface
+    /**
+    * List of error messages
+    *
+    * @private
+    * @type Object
+    */
     var messages = {
 
         "min"       : "Field must have atleast %p1 characters",
@@ -34,26 +31,45 @@
         "required"  : "Field is required.",
         "default"   : "Field is invalid"
 
-        },
+    };
 
-        /**
-         * Constructor method to set settings
-         *
-         * @private
-         * @param {Object} settings Config object
-         */
-        _constructor = function(settings){
+    function Formbot(settings){
 
-            console.log("init", settings);
+        var _constructor = function(){
 
-            return settings;
+            console.log(settings);
 
         };
 
+        _constructor();
+        
+    }
 
-    //public interface
-    this.add = function(){} //add validations
+    Formbot.prototype = {
 
-    _constructor(settings);
+        /**
+        * Describe what this method does
+        *
+        * @public
+        * @param {Object} rule Adds a new validation rule
+        * @returns {Object} Info about the rule
+        */        
+        add: function(){},
 
-}));
+    };
+
+    if (typeof define === 'function' && define.amd) {
+
+        define('Formbot', [], function () { return Formbot; });
+
+    } else if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.exports) {
+
+        module.exports = Formbot;
+
+    } else {
+
+        root.Formbot = Formbot;
+
+    }
+
+}(this));
