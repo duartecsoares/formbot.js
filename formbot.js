@@ -23,11 +23,12 @@
     }
 }(this, function Formbot(){
 
-    this.init = function(){
+    function _constructor(){
 
         console.log("init");
+
     }
 
-    this.init();
+    _constructor();
 
 }));
