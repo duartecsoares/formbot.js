@@ -25,7 +25,7 @@
 
     this.init = function(){
 
-        console.log("init");
+        console.log("init testing ssh keys");
     }
 
     this.init();
