@@ -33,6 +33,7 @@
 
     },
     dom = document,
+    forEach = Array.prototype.forEach,
     getElement  = function(id) {
 
         return dom.getElementById(id);
@@ -84,11 +85,30 @@
         add : function(rule) {},
         process : function(e) {
 
+            var retrieveValue = function(input, iterator){
+
+                var value = input.value,
+                    name  = input.getAttribute("name");
+
+                return { name : name, value : value };
+
+            },
+            formData = [];
+
             e.preventDefault();
 
-            var target = e.target;
+            var target = e.target,
+                inputs = target.querySelectorAll("[data-formbot='input']");
 
-            console.log("processing", target);
+            forEach.call(inputs, function(input, iterator){
+
+                formData.push(retrieveValue(input, iterator));
+
+            });
+
+            console.log(formData);
+
+            return formData
 
         },
         listenTo : function(id) {
