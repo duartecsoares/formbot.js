@@ -44,8 +44,9 @@
         this.addEventListener(eventName, action);
 
     },
-    off = function(event, action) {
+    off = function(eventName, action) {
 
+        this.removeEventListener(eventName, action);
 
     },
     copy = function(object, properties) {
@@ -113,11 +114,19 @@
         },
         listenTo : function(id) {
             
-            var binds = [{ name : "on", action: on }, { name : "off", action: off }],
+            var binds = [{ name : "on", action: on }],
                 form  = copy(getElement(id), binds);
 
             form.on("submit", this.process);
 
+        },
+
+        stopListenTo : function(id) {
+
+            var binds = [{ name : "off", action: off }],
+                form  = copy(getElement(id), binds);
+
+            form.off("submit", this.process);                
         }
 
     };
