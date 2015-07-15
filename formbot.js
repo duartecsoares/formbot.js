@@ -60,7 +60,7 @@
         });
 
         return object;
-    }
+    };
 
     function Formbot(settings) {
 
@@ -84,22 +84,29 @@
         * @returns {Object} Info about the rule
         */        
         add : function(rule) {},
-        process : function(e) {
+
+        submitEvent : function(e){
+
+            e.preventDefault();
+
+            var form = e.target;
+
+            this.process(form);            
+
+        },
+
+        process : function(form) {
 
             var retrieveValue = function(input, iterator){
 
                 var value = input.value,
                     name  = input.getAttribute("name");
 
-                return { name : name, value : value };
+                    return { name : name, value : value };
 
-            },
-            formData = [];
-
-            e.preventDefault();
-
-            var target = e.target,
-                inputs = target.querySelectorAll("[data-formbot='input']");
+                },
+                formData = [],
+                inputs   = form.querySelectorAll("[data-formbot='input']");
 
             forEach.call(inputs, function(input, iterator){
 
@@ -114,19 +121,29 @@
         },
         listenTo : function(id) {
             
-            var binds = [{ name : "on", action: on }],
+            var _self = this,
+                binds = [{ name : "on", action: on }],
                 form  = copy(getElement(id), binds);
 
-            form.on("submit", this.process);
+            form.on("submit", function(e){
+
+                _self.submitEvent(e);
+
+            });   
 
         },
 
         stopListenTo : function(id) {
 
-            var binds = [{ name : "off", action: off }],
+            var _self = this,
+                binds = [{ name : "off", action: off }],
                 form  = copy(getElement(id), binds);
 
-            form.off("submit", this.process);                
+            form.off("submit", function(){
+
+                _self.submitEvent.call(_self);
+
+            });                
         }
 
     };
