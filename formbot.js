@@ -32,8 +32,8 @@
         "default"   : "Field is invalid"
 
     },
-    dom = document,
-    forEach = Array.prototype.forEach,
+    dom         = document,
+    forEach     = Array.prototype.forEach,
     getElement  = function(id) {
 
         return dom.getElementById(id);
@@ -85,16 +85,6 @@
         */        
         add : function(rule) {},
 
-        submitEvent : function(e){
-
-            e.preventDefault();
-
-            var form = e.target;
-
-            this.process(form);            
-
-        },
-
         process : function(form) {
 
             var retrieveValue = function(input, iterator){
@@ -121,15 +111,20 @@
         },
         listenTo : function(id) {
             
-            var _self = this,
-                binds = [{ name : "on", action: on }],
-                form  = copy(getElement(id), binds);
+            var _self       = this,
+                binds       = [{ name : "on", action: on }],
+                form        = copy(getElement(id), binds),
+                submitEvent = function(e){
 
-            form.on("submit", function(e){
+                e.preventDefault();
 
-                _self.submitEvent(e);
+                var form = e.target;
 
-            });   
+                _self.process(form);            
+
+            };
+
+            form.on("submit", submitEvent);   
 
         },
 
@@ -139,11 +134,7 @@
                 binds = [{ name : "off", action: off }],
                 form  = copy(getElement(id), binds);
 
-            form.off("submit", function(){
-
-                _self.submitEvent.call(_self);
-
-            });                
+            form.off("submit", submitEvent);                
         }
 
     };
